@@ -1,6 +1,6 @@
 //Star Wars Tower Defense
 
-PImage space;
+PImage space, path;
 float bgrotate;
 
 int cols = 24;
@@ -19,6 +19,8 @@ void setup()
   smooth();
   space = loadImage("background.jpg");
   space.resize(width, height + 500);
+  path = loadImage("path.png");
+  path.resize(width,600);
 
   for (int i = 0; i < 288; i++)
   {
@@ -37,6 +39,7 @@ void draw()
     pushMatrix();
     image(space, 0, 0);
     popMatrix();
+    image(path,0,0);
 
     int squareno = 0;
     for (int i = 0; i < cols; i++)
