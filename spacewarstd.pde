@@ -7,8 +7,12 @@ int cols = 24;
 int rows = 12;
 int grid [][] = new int[cols][rows];
 
+
+ArrayList<BaseClass> objectsArray = new ArrayList<BaseClass>();
+
 ArrayList creeps = new ArrayList();
 float creephealth;
+float creepX, creepY;
 int no_of_creeps;
 int time;
 int timer = 0;
@@ -35,6 +39,8 @@ void setup()
 
   creephealth = 100;
   no_of_creeps = 5;
+  creepX = 0;
+  creepY = 175;
 }
 
 void draw()
@@ -52,7 +58,7 @@ void draw()
     image(space, 0, 0);
     popMatrix();
     image(path, width/2, height/2);
-
+ 
     int squareno = 0;
     for (int i = 0; i < cols; i++)
     {
@@ -66,7 +72,7 @@ void draw()
     time++;
     if (time == 60)
     {
-      creeps.add(new Creeps(creephealth));
+       creeps.add(new Creeps());
       if (creeps.size() < no_of_creeps)
       {
         time = 0;
