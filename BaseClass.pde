@@ -4,7 +4,6 @@ abstract class BaseClass
   float speed;
   float health;
 
-
   // Default constructor
   BaseClass()
   {

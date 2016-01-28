@@ -1,4 +1,4 @@
-//Star Wars Tower Defense
+//Space Wars Tower Defense
 
 PImage space, path;
 float bgrotate;
@@ -9,12 +9,11 @@ int grid [][] = new int[cols][rows];
 
 
 ArrayList<BaseClass> objectsArray = new ArrayList<BaseClass>();
+ArrayList<Corners> cornersArray = new ArrayList<Corners>();
 
-ArrayList creeps = new ArrayList();
-float creephealth;
 float creepX, creepY;
 int no_of_creeps;
-int time;
+int spawntime;
 int timer = 0;
 
 boolean start = true;
@@ -37,7 +36,6 @@ void setup()
     sq[i] = new Square();
   }
 
-  creephealth = 100;
   no_of_creeps = 5;
   creepX = 0;
   creepY = 175;
@@ -69,37 +67,38 @@ void draw()
       }
     }
 
-    time++;
-    if (time == 60)
+    spawntime++;
+    if (spawntime == 60)
     {
-       creeps.add(new Creeps());
-      if (creeps.size() < no_of_creeps)
+      BaseClass creep = new Creeps();
+      objectsArray.add(creep);
+  
+      if (objectsArray.size() < no_of_creeps)
       {
-        time = 0;
+        spawntime = 0;
       } else
       {
-        time = 100;
+        spawntime = 100;
       }
     }
 
-    for (int j=0; j<creeps.size(); j++) 
+    for (int j=0; j<objectsArray.size(); j++) 
     {
-      if (creeps.size()>0)
+      if (objectsArray.size()>0)
       {
-        ((Creeps)creeps.get(j)).render();
+        ((Creeps)objectsArray.get(j)).render();
       }
     }
-
-    if (creeps.size() == 0) 
+    
+   /* if (creeps.size() == 0) 
     {
       timer++;
       if (timer == 120) 
       {
-        time = 0;
-        creephealth += 35;
+        spawntime = 0;
         no_of_creeps += 1;
         timer = 0;
       }
-    }
+    }*/
   }
 }
