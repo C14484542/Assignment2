@@ -37,8 +37,6 @@ void setup()
   }
 
   no_of_creeps = 5;
-  creepX = 0;
-  creepY = 175;
 }
 
 void draw()
@@ -56,7 +54,7 @@ void draw()
     image(space, 0, 0);
     popMatrix();
     image(path, width/2, height/2);
-    
+
     placeCorners();
 
     int squareno = 0;
@@ -102,6 +100,7 @@ void draw()
      timer = 0;
      }
      }*/
+    checkCollisions();
   }
 }
 
@@ -116,24 +115,53 @@ void placeCorners()
         Corners corner = new Top(i*50, j*50);
         cornersArray.add(corner);
         corner.render();
-      }
-      else if ((i == 1 && j == 1))
+      } else if ((i == 1 && j == 1))
+      {
+        Corners corner = new Left(i*50, j*50);
+        cornersArray.add(corner);
+        corner.render();
+      } else if ((i == 3 && j == 3))
       {
         Corners corner = new Right(i*50, j*50);
         cornersArray.add(corner);
         corner.render();
-      }
-      else if ((i == 3 && j == 3))
-      {
-        Corners corner = new Right(i*50, j*50);
-        cornersArray.add(corner);
-        corner.render();
-      }
-      else if ((i == 2 && j == 4))
+      } else if ((i == 2 && j == 4))
       {
         Corners corner = new Bottom(i*50, j*50);
         cornersArray.add(corner);
         corner.render();
+      }
+    }
+  }
+}
+
+void checkCollisions()
+{
+  for (int i = objectsArray.size() - 1; i >= 0; i --)
+  {
+    BaseClass creep = objectsArray.get(i);
+    if (creep instanceof Creeps)
+    {
+      for (int j = cornersArray.size() - 1; j >= 0; j --)
+      {
+        Corners corner = cornersArray.get(j);
+        if (corner instanceof Right) // Check the type of an object
+        {
+          if (creep.creepvector.dist(corner.cornervector) < 35)
+          {
+            // Do some casting
+            creep.creeprot = 0;
+          }
+        }
+        
+        if (corner instanceof Top) // Check the type of an object
+        {
+          if (creep.creepvector.dist(corner.cornervector) < 80)
+          {
+            // Do some casting
+            creep.creeprot = PI/2;
+          }
+        }
       }
     }
   }

@@ -4,15 +4,16 @@ class Right extends Corners
   //Default constructor
   Right(int cx, int cy)
   {
-    this.x = cx;
-    this.y = cy;
+    this.cornervector.x = cx;
+    this.cornervector.y = cy;
   }
   
   void render()
   {
     pushMatrix();
     fill(255);
-    rect(x, y, 50, 50);
+    translate(cornervector.x,cornervector.y);
+    rect(0, 0, 50, 50);
     popMatrix();
   }
 }

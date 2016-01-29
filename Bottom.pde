@@ -4,15 +4,15 @@ class Bottom extends Corners
   //Default constructor
   Bottom(int cx, int cy)
   {
-    this.x = cx;
-    this.y = cy;
+    this.cornervector.x = cx;
+    this.cornervector.y = cy;
   }
   
   void render()
   {
     pushMatrix();
     fill(255);
-    rect(x, y, 50, 50);
+    rect(cornervector.x, cornervector.y, 50, 50);
     popMatrix();
   }
 }

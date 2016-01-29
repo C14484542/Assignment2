@@ -11,7 +11,8 @@ class Creeps extends BaseClass
     
     this.forward = new PVector(1, 0);
     this.creepvector.x = 0;
-    this.creepvector.y = 0;
+    this.creepvector.y = 175;
+    this.creeprot = PI/2;
   }
 
 
@@ -20,7 +21,7 @@ class Creeps extends BaseClass
     forward.x = sin(creeprot);
     forward.y = -cos(creeprot);
     creepvector.add(forward);
-    if (creepvector.x < 200 && creepvector.y < 200) 
+    /*if (creepvector.x < 200 && creepvector.y < 200) 
     {
       creeprot = PI/2;
     }
@@ -43,7 +44,7 @@ class Creeps extends BaseClass
     if(creepvector.y > 225 && creepvector.x < 500)
     {
       creeprot += PI/2;
-    }
+    }*/
    
    
     pushMatrix();
