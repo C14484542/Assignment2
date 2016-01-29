@@ -1,11 +1,6 @@
 class Creeps extends BaseClass
 {
   PImage creep;
-  PVector position;
-  PVector forward;
-  float speed;
-  float health;
-  float creeprot;
 
   Creeps()
   {
@@ -14,10 +9,9 @@ class Creeps extends BaseClass
     this.creep = loadImage("creep1.png");
     this.creep.resize(50,50);
     
-    position = new PVector(0,0);
-    forward = new PVector(1, 0);
-    this.position.x = 0;
-    this.position.y = 0;
+    this.forward = new PVector(1, 0);
+    this.creepvector.x = 0;
+    this.creepvector.y = 0;
   }
 
 
@@ -25,35 +19,35 @@ class Creeps extends BaseClass
   {
     forward.x = sin(creeprot);
     forward.y = -cos(creeprot);
-    position.add(forward);
-    if (position.x < 200 && position.y < 200) 
+    creepvector.add(forward);
+    if (creepvector.x < 200 && creepvector.y < 200) 
     {
       creeprot = PI/2;
     }
     
-    if (position.x > 125)
+    if (creepvector.x > 125)
     {
       creeprot -= PI/2;
     }
     
-    if (position.y < 75)
+    if (creepvector.y < 75)
     {
       creeprot += PI/2;
     }
     
-    if(position.x > 475 && position.y > 50)
+    if(creepvector.x > 475 && creepvector.y > 50)
     {
       creeprot += PI/2;
     }
     
-    if(position.y > 225 && position.x < 500)
+    if(creepvector.y > 225 && creepvector.x < 500)
     {
       creeprot += PI/2;
     }
    
    
     pushMatrix();
-    translate(position.x, position.y);
+    translate(creepvector.x, creepvector.y);
     rotate(creeprot);
     image(creep, 0, 0);
     popMatrix();

@@ -1,9 +1,11 @@
 abstract class BaseClass
 {
   PVector creepvector;
+  PVector forward;
   float speed;
   float health;
-
+  float creeprot;
+  
   // Default constructor
   BaseClass()
   {
