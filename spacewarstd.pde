@@ -56,7 +56,9 @@ void draw()
     image(space, 0, 0);
     popMatrix();
     image(path, width/2, height/2);
- 
+    
+    placeCorners();
+
     int squareno = 0;
     for (int i = 0; i < cols; i++)
     {
@@ -72,7 +74,7 @@ void draw()
     {
       BaseClass creep = new Creeps();
       objectsArray.add(creep);
-  
+
       if (objectsArray.size() < no_of_creeps)
       {
         spawntime = 0;
@@ -89,16 +91,32 @@ void draw()
         ((Creeps)objectsArray.get(j)).render();
       }
     }
-    
-   /* if (creeps.size() == 0) 
+
+    /* if (creeps.size() == 0) 
+     {
+     timer++;
+     if (timer == 120) 
+     {
+     spawntime = 0;
+     no_of_creeps += 1;
+     timer = 0;
+     }
+     }*/
+  }
+}
+
+void placeCorners()
+{
+  for (int i = 0; i < cols; i++)
+  {
+    for (int j =0; j < rows; j++)
     {
-      timer++;
-      if (timer == 120) 
+      if ((i == 2 && j == 0))
       {
-        spawntime = 0;
-        no_of_creeps += 1;
-        timer = 0;
+        Corners corner = new Top(i*50, j*50);
+        cornersArray.add(corner);
+        corner.render();
       }
-    }*/
+    }
   }
 }
