@@ -129,6 +129,12 @@ void placeCorners()
         cornersArray.add(corner);
         corner.render();
       }
+      else if ((i == 2 && j == 4))
+      {
+        Corners corner = new Bottom(i*50, j*50);
+        cornersArray.add(corner);
+        corner.render();
+      }
     }
   }
 }
