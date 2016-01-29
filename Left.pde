@@ -1,8 +1,8 @@
-//Class for right corner i.e if the square is on the right of the creeps
-class Right extends Corners
+//Class for left corner i.e if the square is on the left of the creeps
+class Left extends Corners
 {
   //Default constructor
-  Right(int cx, int cy)
+  Left(int cx, int cy)
   {
     this.x = cx;
     this.y = cy;

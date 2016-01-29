@@ -1,4 +1,4 @@
-//Class for top corner i.e if the square is at the top of creeps
+//Class for top corner i.e if the square is on the top the creeps
 class Top extends Corners
 {
   // Default constructor
