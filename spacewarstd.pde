@@ -117,6 +117,12 @@ void placeCorners()
         cornersArray.add(corner);
         corner.render();
       }
+      else if ((i == 3 && j == 3))
+      {
+        Corners corner = new Right(i*50, j*50);
+        cornersArray.add(corner);
+        corner.render();
+      }
     }
   }
 }
