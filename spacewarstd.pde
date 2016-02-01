@@ -18,7 +18,13 @@ int timer = 0;
 
 boolean start = true;
 
+ArrayList towers = new ArrayList();
+int gold;
+
 Square[] sq = new Square[288];
+
+int maptestX, maptestY;
+int placeX, placeY;
 
 void setup()
 {
@@ -36,11 +42,26 @@ void setup()
     sq[i] = new Square();
   }
 
+  //Set up grid ID number
+  int gridid = 0;
+  for (int i = 0; i < cols; i++) 
+  {
+    for (int j = 0; j < rows; j++) 
+    {
+      grid[i][j] = gridid;
+      gridid++;
+    }
+  }
+
   no_of_creeps = 5;
+  gold = 1000;
 }
 
 void draw()
 {
+  maptestX = int(map(mouseX, 0, 1200, 0, 24));
+  maptestY = int(map(mouseY, 0, 600, 0, 12));
+
   if (!start)
   {
     image(space, width/2, height/2);
@@ -101,6 +122,11 @@ void draw()
      }
      }*/
     checkCollisions();
+
+    for (int i=0; i<towers.size(); i++) {
+
+      ((Tower)towers.get(i)).render();
+    }
   }
 }
 
@@ -153,7 +179,7 @@ void checkCollisions()
             creep.creeprot = 0;
           }
         }
-        
+
         if (corner instanceof Top) // Check the type of an object
         {
           if (creep.creepvector.dist(corner.cornervector) < 80)
@@ -165,4 +191,32 @@ void checkCollisions()
       }
     }
   }
+}
+
+void mousePressed()
+{
+
+  if (gold >= 250) 
+  {
+    placeX = current_buttonX(maptestX, maptestY) + 25;
+    placeY = current_buttonY(maptestX, maptestY) + 25;
+    towers.add(new Tower(placeX, placeY));
+    gold -= 250;
+  }
+}
+
+int current_buttonX (int x, int y) 
+{
+  int xpos = 0;
+  int buttonChoice = grid[x][y];
+  xpos = sq[buttonChoice].rectX;
+  return xpos;
+}
+
+int current_buttonY (int x, int y) 
+{
+  int ypos = 0;
+  int buttonChoice = grid[x][y];
+  ypos = sq[buttonChoice].rectY;
+  return ypos;
 }
