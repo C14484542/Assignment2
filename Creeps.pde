@@ -4,7 +4,7 @@ class Creeps extends BaseClass
 
   Creeps()
   {
-    this.speed = 2;
+    this.speed = 1;
     this.health = 20;
     this.creep = loadImage("creep1.png");
     this.creep.resize(50,50);

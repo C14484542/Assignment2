@@ -19,7 +19,6 @@ int timer = 0;
 boolean start = true;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
-ArrayList<Bullet> bulletsArray = new ArrayList<Bullet>();
 int gold;
 
 Square[] sq = new Square[288];
@@ -181,11 +180,11 @@ void placeCorners()
           corner.render();
         }//end inner if
       }//end outer if
-      
+
       if (i == 7)
       {
         if (j == 13 || j == 19)
-       
+
         {
           Corners corner = new Up(25+j*50, 25+i*50);
           cornersArray.add(corner);
@@ -202,14 +201,14 @@ void placeCorners()
           corner.render();
         }//end inner if
       }//end outer if
-      
+
       if (i == 10 && j == 1)
       {
         Corners corner = new Up(25+j*50, 25+i*50);
         cornersArray.add(corner);
         corner.render();
       }//end if
-      
+
       if (i == 11 && j == 21)
       {
         Corners corner = new Left(25+j*50, 25+i*50);
@@ -227,6 +226,10 @@ void checkCollisions()
     BaseClass creep = objectsArray.get(i);
     if (creep instanceof Creeps)
     {
+      if (creep.health == 0)
+      {
+        objectsArray.remove(creep);
+      }
       for (int j = cornersArray.size() - 1; j >= 0; j --)
       {
         Corners corner = cornersArray.get(j);
@@ -266,18 +269,7 @@ void checkCollisions()
           }//end if
         }//end if
       }//end inner for
-
-      for (int k = bulletsArray.size() - 1; k >= 0; k--)
-      {
-        Bullet bullet = bulletsArray.get(k);
-        if (bullet instanceof Bullet)
-        {
-          if (creep.creepvector.dist(bullet.towervector) < 10)
-          {
-            bulletsArray.remove(bullet);
-          }//end if
-        }//end if
-      }//end inner for
+  
     }//end outer if
   }//end outer for
 }
