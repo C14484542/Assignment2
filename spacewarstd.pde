@@ -126,6 +126,8 @@ void draw()
     for (int i=0; i<towers.size(); i++) {
 
       ((Tower)towers.get(i)).render();
+      ((Tower)towers.get(i)).shoot
+      ();
     }
   }
 }
