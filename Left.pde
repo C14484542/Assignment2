@@ -1,4 +1,4 @@
-//Class for left corner i.e if the square is on the left of the creeps
+//Class for making the creeps go left if there is a collision 
 class Left extends Corners
 {
   //Default constructor
@@ -7,11 +7,11 @@ class Left extends Corners
     this.cornervector.x = cx;
     this.cornervector.y = cy;
   }
-  
+
   void render()
   {
     pushMatrix();
-    fill(255);
+    noFill();
     rect(cornervector.x, cornervector.y, 50, 50);
     popMatrix();
   }

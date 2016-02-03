@@ -24,9 +24,9 @@ class Square
     rectY = y;
     rectColor = color(currentColor);
 
-    update(mouseX, mouseY);
-    testX = posX(mouseX, mouseY);
-    testY = posY(mouseX, mouseY);
+    update();
+    testX = posX();
+    testY = posY();
 
     if (rectOn) {
       fill (rectRed);
@@ -40,22 +40,26 @@ class Square
     rect(rectX, rectY, rectSize, rectSize);
   }
 
-  void update (int x, int y) {
+  void update () 
+  {
 
-    if (overRect(rectX, rectY, rectSize, rectSize)) {
+    if (overRect(rectX, rectY)) 
+    {
       rectOver = true;
     } else {
       rectOver = false;
     }
 
-    if (mousePressed && rectOver) {
+    if (mousePressed && rectOver) 
+    {
       rectOn = true;
     } else {
       rectOn = false;
     }
   }
 
-  int posX (int x, int y) {
+  int posX() 
+  {
     int a = 0;
     if (mousePressed && rectOn) {
       a = rectX;
@@ -63,7 +67,8 @@ class Square
     return a;
   }
 
-  int posY (int x, int y) {
+  int posY()
+  {
     int a = 0;
     if (mousePressed && rectOn) {
       a = rectY;
@@ -71,11 +76,14 @@ class Square
     return a;
   }
 
-  boolean overRect (int x, int y, int rectwidth, int rectheight) 
+  boolean overRect (int x, int y) 
   {
-    if (mouseX >= x && mouseX <= x+rectwidth && mouseY >= y && mouseY <= y+rectheight) {
+    if (mouseX >= x-25 && mouseX <= x+25 && mouseY >= y-25 && mouseY <= y+25) 
+    {
       return true;
-    } else {
+    } 
+    else 
+    {
       return false;
     }
   }

@@ -31,7 +31,7 @@ void setup()
 {
   size(1200, 600, P3D);
   imageMode(CENTER);
-  //rectMode(CENTER);
+  rectMode(CENTER);
   smooth();
   space = loadImage("background.jpg");
   space.resize((int)(width * 1.5), (int)(width * 1.5));
@@ -84,7 +84,7 @@ void draw()
     {
       for (int j = 0; j < rows; j++)
       {
-        sq[squareno].render((i*50), (j*50));
+        sq[squareno].render(25+i*50, 25+j*50);
         squareno++;
       }
     }
@@ -127,8 +127,7 @@ void draw()
     for (int i=0; i<towersArray.size(); i++) {
 
       ((Tower)towersArray.get(i)).render();
-      ((Tower)towersArray.get(i)).shoot
-        ();
+      ((Tower)towersArray.get(i)).shoot();
     }
   }
 }
@@ -141,109 +140,84 @@ void placeCorners()
     {
       if (i == 0)
       {
-        if (j == 2 || j == 9 || j == 12 || j == 15 || j == 18 || j == 21)
+        if (j == 2 || j == 12 || j == 18)
         {
-          Corners corner = new Top(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end inner if
-      }//end outer if
-      else if (i == 1)
-      {
-        if (j == 1 || j == 11 || j == 17)
-        {
-          Corners corner = new Left(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end if
-        else if (j == 10 || j == 16 || j == 22)
-        {
-          Corners corner = new Right(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end inner if
-      }//end outer if 
-      else if (i == 4)
-      {
-        if (j == 2)
-        {
-          Corners corner = new Bottom(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end if
-        else if (j == 4)
-        {
-          Corners corner = new Left(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        } else if (j == 10)
-        {
-          Corners corner = new Right(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end inner if
-      }//end outer if
-      else if (i == 7)
-      {
-        if (j == 4 || j == 14)
-        {
-          Corners corner = new Left(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end if
-        else if (j == 13 || j == 19)
-        {
-          Corners corner = new Right(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end inner if
-      }//end outer if
-      
-      else if (i == 8)
-      {
-        if (j == 5 || j == 12 || j == 15 || j == 18)
-        {
-          Corners corner = new Bottom(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }
-      }
-      
-      else if (i == 10)
-      {
-        if (j == 1)
-        {
-          Corners corner = new Left(j*50, i*50);
-          cornersArray.add(corner);
-          corner.render();
-        }//end if
-
-        else if (j == 22)
-        {
-          Corners corner = new Right(j*50, i*50);
+          Corners corner = new Right(25+j*50, 25+i*50);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
       }//end outer if
 
-      else if (i == 11)
+      if (i == 1)
       {
-        if (j == 2 || j == 21)
+        if (j == 10 || j == 16 || j == 22)
         {
-          Corners corner = new Bottom(j*50, i*50);
+          Corners corner = new Down(25+j*50, 25+i*50);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
       }//end outer if
 
-      if ( i == 3 && j == 3)
+      if (i == 3 && j == 3)
       {
-        Corners corner = new Right(j*50, i*50);
+        Corners corner = new Up(25+j*50, 25+i*50);
         cornersArray.add(corner);
         corner.render();
-      }
-    }//end for
-  }
+      }//end if
+
+      if (i == 4 && j == 4)
+      {
+        Corners corner = new Down(25+j*50, 25+i*50);
+        cornersArray.add(corner);
+        corner.render();
+      }//end if
+
+      if (i == 5)
+      {
+        if (j == 2 || j == 9)
+        {
+          Corners corner = new Left(25+j*50, 25+i*50);
+          cornersArray.add(corner);
+          corner.render();
+        }//end inner if
+      }//end outer if
+      
+      if (i == 7)
+      {
+        if (j == 13 || j == 19)
+       
+        {
+          Corners corner = new Up(25+j*50, 25+i*50);
+          cornersArray.add(corner);
+          corner.render();
+        }//end inner if
+      }//end outer if
+
+      if (i == 8)
+      {
+        if (j == 5 || j == 15)
+        {
+          Corners corner = new Right(25+j*50, 25+i*50);
+          cornersArray.add(corner);
+          corner.render();
+        }//end inner if
+      }//end outer if
+      
+      if (i == 10 && j == 1)
+      {
+        Corners corner = new Up(25+j*50, 25+i*50);
+        cornersArray.add(corner);
+        corner.render();
+      }//end if
+      
+      if (i == 11 && j == 21)
+      {
+        Corners corner = new Left(25+j*50, 25+i*50);
+        cornersArray.add(corner);
+        corner.render();
+      }//end if
+    }//end inner for
+  }//end outer for
 }
 
 void checkCollisions()
@@ -256,21 +230,39 @@ void checkCollisions()
       for (int j = cornersArray.size() - 1; j >= 0; j --)
       {
         Corners corner = cornersArray.get(j);
-        if (corner instanceof Right) // Check the type of an object
+        if (corner instanceof Up) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 35)
+          if (creep.creepvector.dist(corner.cornervector) < 50)
           {
             // Do some casting
             creep.creeprot = 0;
           }//end if
         }//end if
 
-        if (corner instanceof Top) // Check the type of an object
+        if (corner instanceof Right) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 80)
+          if (creep.creepvector.dist(corner.cornervector) < 50)
           {
             // Do some casting
             creep.creeprot = PI/2;
+          }//end if
+        }//end if
+
+        if (corner instanceof Left) // Check the type of an object
+        {
+          if (creep.creepvector.dist(corner.cornervector) < 50)
+          {
+            // Do some casting
+            creep.creeprot = PI*3/2;
+          }//end if
+        }//end if
+
+        if (corner instanceof Down) // Check the type of an object
+        {
+          if (creep.creepvector.dist(corner.cornervector) < 50)
+          {
+            // Do some casting
+            creep.creeprot = PI;
           }//end if
         }//end if
       }//end inner for
@@ -295,8 +287,8 @@ void mousePressed()
 
   if (gold >= 250) 
   {
-    placeX = current_buttonX(maptestX, maptestY) + 25;
-    placeY = current_buttonY(maptestX, maptestY) + 25;
+    placeX = current_buttonX(maptestX, maptestY);
+    placeY = current_buttonY(maptestX, maptestY);
     towersArray.add(new Tower(placeX, placeY));
     gold -= 250;
   }

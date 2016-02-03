@@ -9,7 +9,7 @@ class Creeps extends BaseClass
     this.creep = loadImage("creep1.png");
     this.creep.resize(50,50);
     
-    this.forward = new PVector(1, 0);
+    this.forward = new PVector(100, 0);
     this.creepvector.x = 0;
     this.creepvector.y = 175;
     this.creeprot = PI/2;
@@ -20,6 +20,7 @@ class Creeps extends BaseClass
   {
     forward.x = sin(creeprot);
     forward.y = -cos(creeprot);
+    forward.mult(speed);
     creepvector.add(forward);
     
     pushMatrix();

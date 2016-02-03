@@ -1,8 +1,8 @@
-//Class for bottom corner i.e if the square is on the bottom of the creeps
-class Bottom extends Corners
+//Class for making the creeps go down if there is a collision 
+class Down extends Corners
 {
   //Default constructor
-  Bottom(int cx, int cy)
+  Down(int cx, int cy)
   {
     this.cornervector.x = cx;
     this.cornervector.y = cy;
@@ -11,7 +11,7 @@ class Bottom extends Corners
   void render()
   {
     pushMatrix();
-    fill(255);
+    noFill();
     rect(cornervector.x, cornervector.y, 50, 50);
     popMatrix();
   }

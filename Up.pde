@@ -1,8 +1,8 @@
-//Class for top corner i.e if the square is on the top the creeps
-class Top extends Corners
+//Class for making the creeps go up if there is a collision 
+class Up extends Corners
 {
   // Default constructor
-  Top(int cx, int cy)
+  Up(int cx, int cy)
   { 
     this.cornervector.x = cx;
     this.cornervector.y = cy;
@@ -11,7 +11,7 @@ class Top extends Corners
   void render()
   {
     pushMatrix();
-    fill(255);
+    noFill();
     rect(cornervector.x, cornervector.y, 50, 50);
     popMatrix();
   }

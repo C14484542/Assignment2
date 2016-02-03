@@ -2,8 +2,7 @@
 abstract class Corners
 {
   PVector cornervector;
-  boolean first = false;
-  boolean second = true;
+
   // Default constructor
   Corners()
   { 

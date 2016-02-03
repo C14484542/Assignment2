@@ -1,4 +1,4 @@
-//Class for right corner i.e if the square is on the right of the creeps
+//Class for making the creeps go right if there is a collision 
 class Right extends Corners
 {
   //Default constructor
@@ -11,7 +11,7 @@ class Right extends Corners
   void render()
   {
     pushMatrix();
-    fill(255);
+    noFill();
     translate(cornervector.x,cornervector.y);
     rect(0, 0, 50, 50);
     popMatrix();
