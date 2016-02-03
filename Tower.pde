@@ -3,7 +3,6 @@ class Tower
 {
   PVector towervector = new PVector();
   PImage towerimg;
-  ArrayList bullet = new ArrayList();
   int Tfr = 0; //timeframe
   int inReach = 200;
   float aX = 40;
@@ -45,15 +44,15 @@ class Tower
         Tfr++;
         if (Tfr == 20) 
         {
-          bullet.add(new Bullet(towervector.x, towervector.y));  
+          bulletsArray.add(new Bullet(towervector.x, towervector.y));  
           Tfr = 0;
         }
       }
 
-      for (int i=0; i<bullet.size(); i++) 
+      for (int i=0; i<bulletsArray.size(); i++) 
       {
         //image(towerimg, towervector.x, towervector.y);
-        ((Bullet)bullet.get(i)).render(aX, aY);
+        ((Bullet)bulletsArray.get(i)).render(aX, aY);
         pushMatrix();
         translate(towervector.x, towervector.y);
         rotate(angle+PI/2);
