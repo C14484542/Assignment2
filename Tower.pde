@@ -8,6 +8,7 @@ class Tower
   float aX = 40;
   float aY = 40;
   float angle;
+  float towerrot;
   ArrayList bulletsArray = new ArrayList();
 
   Tower (float x, float y) {
@@ -26,12 +27,17 @@ class Tower
         angle = atan2((((BaseClass)objectsArray.get(0)).creepvector.y)-towervector.y, (((BaseClass)objectsArray.get(0)).creepvector.x)-towervector.x);
         aX = (40 * cos(angle)) + towervector.x;
         aY = (40 * sin(angle)) + towervector.y;
+        towerrot = angle + PI/2;
+      }
+      else
+      {
+        towerrot = 0;
       }
     }
 
     pushMatrix();
     translate(towervector.x, towervector.y);
-    rotate(angle+PI/2-PI/13);
+    rotate(towerrot);
     image(towerimg, 0, 0);
     popMatrix();
   }

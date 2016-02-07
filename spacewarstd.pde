@@ -1,6 +1,6 @@
 //Space Wars Tower Defense
 
-PImage space, path, menubg;
+PImage space, path, menubg, planet;
 float bgrotate;
 
 int cols = 24;
@@ -59,6 +59,8 @@ void setup()
 
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
+  planet = loadImage("planet.png");
+  planet.resize(50,50);
 }
 
 void draw()
@@ -90,6 +92,18 @@ void draw()
       {
         sq[squareno].render(25+i*50, 25+j*50);
         squareno++;
+        if(i == 0 && j == 6)
+        {
+          image(planet,25+i*50, 25+j*50);
+        }
+        
+        if(i == 0 && j == 3)
+        {
+          pushMatrix();
+          fill(0);
+          text("Start",25+i*50, 25+j*50);
+          popMatrix();
+        }
       }
     }
 
