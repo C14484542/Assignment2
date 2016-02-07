@@ -1,6 +1,6 @@
 //Space Wars Tower Defense
 
-PImage space, path;
+PImage space, path, menubg;
 float bgrotate;
 
 int cols = 24;
@@ -16,7 +16,7 @@ int no_of_creeps;
 int spawntime;
 int timer = 0;
 
-boolean start = true;
+boolean start = false;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
 int gold;
@@ -55,6 +55,9 @@ void setup()
 
   no_of_creeps = 5;
   gold = 1000;
+  
+  menubg = loadImage("menubg.png");
+  menubg.resize(width,height);
 }
 
 void draw()
@@ -64,7 +67,7 @@ void draw()
 
   if (!start)
   {
-    image(space, width/2, height/2);
+    drawMenu();
   }
   if (start)
   {
@@ -300,4 +303,9 @@ int current_buttonY (int x, int y)
   int buttonChoice = grid[x][y];
   ypos = sq[buttonChoice].rectY;
   return ypos;
+}
+
+void drawMenu()
+{
+  background(menubg);
 }
