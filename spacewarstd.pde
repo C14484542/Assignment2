@@ -20,7 +20,7 @@ boolean start = false;
 boolean menu = true;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
-int gold, lives;
+int gold, lives, level;
 
 Square[] sq = new Square[288];
 
@@ -57,11 +57,12 @@ void setup()
   no_of_creeps = 5;
   gold = 1000;
   lives = 10;
+  level = 1;
 
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
   planet = loadImage("planet.png");
-  planet.resize(50,50);
+  planet.resize(50, 50);
 }
 
 void draw()
@@ -83,13 +84,14 @@ void draw()
     image(space, 0, 0);
     popMatrix();
     image(path, width/2, height/2);
-    
+
     pushMatrix();
     fill(255);
-    text("GOLD: " + gold, 50, 25);
-    text("LIVES; " + lives, 200, 25);
+    text("LEVEL: " + level, 50, 25);
+    text("GOLD: " + gold, 150, 25);
+    text("LIVES: " + lives, 300, 25);
     popMatrix();
-  
+
     placeCorners();
 
     int squareno = 0;
@@ -99,16 +101,16 @@ void draw()
       {
         sq[squareno].render(25+i*50, 25+j*50);
         squareno++;
-        if(i == 0 && j == 6)
+        if (i == 0 && j == 6)
         {
-          image(planet,25+i*50, 25+j*50);
+          image(planet, 25+i*50, 25+j*50);
         }
-        
-        if(i == 0 && j == 3)
+
+        if (i == 0 && j == 3)
         {
           pushMatrix();
           fill(0);
-          text("Start",25+i*50, 25+j*50);
+          text("Start", 25+i*50, 25+j*50);
           popMatrix();
         }
       }
@@ -137,16 +139,18 @@ void draw()
       }
     }
 
-    /* if (creeps.size() == 0) 
-     {
-     timer++;
-     if (timer == 120) 
-     {
-     spawntime = 0;
-     no_of_creeps += 1;
-     timer = 0;
-     }
-     }*/
+    if (objectsArray.size() == 0) 
+    {
+      timer++;
+      if (timer == 120) 
+      {
+        spawntime = 0;
+        no_of_creeps += 1;
+        timer = 0;
+        level++;
+      }
+    }
+    
     checkCollisions();
 
     for (int i=0; i<towersArray.size(); i++) {
@@ -255,8 +259,9 @@ void checkCollisions()
       if (creep.health == 0)
       {
         objectsArray.remove(creep);
+        gold += 50;
       }
-      
+
       if (creep.creepvector.x < 25 && creep. creepvector.y > 300)
       {
         lives--;
@@ -307,14 +312,14 @@ void checkCollisions()
 
 void mousePressed()
 {
-  
-  if(menu)
+
+  if (menu)
   {
     for (int i = 0; i < 100; i += 50)
     {
       if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
       {
-        if(i == 0)
+        if (i == 0)
         {
           start = true;
         }
@@ -327,7 +332,7 @@ void mousePressed()
     {
       placeX = current_buttonX(maptestX, maptestY);
       placeY = current_buttonY(maptestX, maptestY);
-      if( placeX != 0 && placeY !=0)
+      if ( placeX != 0 && placeY !=0)
       {
         towersArray.add(new Tower(placeX, placeY));
       }

@@ -51,7 +51,7 @@ class Tower
         if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, towervector.x, towervector.y) < towerRange) 
         {
           Tfr++;
-          if (Tfr == 60)
+          if (Tfr == 60 && objectsArray.get(i).health > 0)
           {
             bulletsArray.add(new Bullet(towervector.x, towervector.y));  
             Tfr = 0;
@@ -68,7 +68,12 @@ class Tower
         {
           bulletsArray.remove(j);
           objectsArray.get(i).health--;
-        } else if (((Bullet)bulletsArray.get(j)).loc.x > width || ((Bullet)bulletsArray.get(j)).loc.x < 0 || ((Bullet)bulletsArray.get(j)).loc.y > height || ((Bullet)bulletsArray.get(j)).loc.y < 0) 
+        } 
+        else if (((Bullet)bulletsArray.get(j)).loc.x > width || ((Bullet)bulletsArray.get(j)).loc.x < 0 || ((Bullet)bulletsArray.get(j)).loc.y > height || ((Bullet)bulletsArray.get(j)).loc.y < 0) 
+        {
+          bulletsArray.remove(j);
+        }
+        if(objectsArray.size() == 0)
         {
           bulletsArray.remove(j);
         }
