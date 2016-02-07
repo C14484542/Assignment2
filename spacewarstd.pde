@@ -20,7 +20,7 @@ boolean start = false;
 boolean menu = true;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
-int gold;
+int gold, lives;
 
 Square[] sq = new Square[288];
 
@@ -56,6 +56,7 @@ void setup()
 
   no_of_creeps = 5;
   gold = 1000;
+  lives = 10;
 
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
@@ -82,7 +83,13 @@ void draw()
     image(space, 0, 0);
     popMatrix();
     image(path, width/2, height/2);
-
+    
+    pushMatrix();
+    fill(255);
+    text("GOLD: " + gold, 50, 25);
+    text("LIVES; " + lives, 200, 25);
+    popMatrix();
+  
     placeCorners();
 
     int squareno = 0;
@@ -247,6 +254,12 @@ void checkCollisions()
     {
       if (creep.health == 0)
       {
+        objectsArray.remove(creep);
+      }
+      
+      if (creep.creepvector.x < 25 && creep. creepvector.y > 300)
+      {
+        lives--;
         objectsArray.remove(creep);
       }
       for (int j = cornersArray.size() - 1; j >= 0; j --)
