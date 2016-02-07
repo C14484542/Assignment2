@@ -17,6 +17,7 @@ int spawntime;
 int timer = 0;
 
 boolean start = false;
+boolean menu = true;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
 int gold;
@@ -55,9 +56,9 @@ void setup()
 
   no_of_creeps = 5;
   gold = 1000;
-  
+
   menubg = loadImage("menubg.png");
-  menubg.resize(width,height);
+  menubg.resize(width, height);
 }
 
 void draw()
@@ -71,6 +72,7 @@ void draw()
   }
   if (start)
   {
+    menu = false;
     bgrotate += TWO_PI / 2000;
     pushMatrix();
     translate(width/2, height/2);
@@ -272,20 +274,38 @@ void checkCollisions()
           }//end if
         }//end if
       }//end inner for
-  
     }//end outer if
   }//end outer for
 }
 
 void mousePressed()
 {
-
-  if (gold >= 250) 
+  
+  if(menu)
   {
-    placeX = current_buttonX(maptestX, maptestY);
-    placeY = current_buttonY(maptestX, maptestY);
-    towersArray.add(new Tower(placeX, placeY));
-    gold -= 250;
+    for (int i = 0; i < 100; i += 50)
+    {
+      if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
+      {
+        if(i == 0)
+        {
+          start = true;
+        }
+      }
+    }
+  }
+  if (!menu)
+  {
+    if (gold >= 250) 
+    {
+      placeX = current_buttonX(maptestX, maptestY);
+      placeY = current_buttonY(maptestX, maptestY);
+      if( placeX != 0 && placeY !=0)
+      {
+        towersArray.add(new Tower(placeX, placeY));
+      }
+      gold -= 250;
+    }
   }
 }
 
@@ -308,4 +328,26 @@ int current_buttonY (int x, int y)
 void drawMenu()
 {
   background(menubg);
+  noStroke();
+  textAlign(CENTER, CENTER);
+
+  for (int i = 0; i < 100; i += 50)
+  {
+    pushMatrix();
+    if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
+    {
+      noFill();
+    } else
+    {
+      fill(127);
+    }
+    rect(width/2, height/2 + i, 100, 30);
+    popMatrix();
+  }
+
+  pushMatrix();
+  fill(0);
+  text("Start", width/2, height/2);
+  text("How to play", width/2, height/2 + 50);
+  popMatrix();
 }
