@@ -5,7 +5,7 @@ class Creeps extends BaseClass
   {
     this.speed = 1;
     this.health = 20;
-    this.forward = new PVector(100, 0);
+    this.forward = new PVector(1, 0);
     this.creepvector.x = 0;
     this.creepvector.y = 175;
     this.creeprot = PI/2;
@@ -22,7 +22,7 @@ class Creeps extends BaseClass
     pushMatrix();
     translate(creepvector.x, creepvector.y);
     rotate(creeprot);
-    for(int i = 0; i < 3; i++)
+    for(int i = 0; i < creepimg.length; i++)
     {
       if(level == i + 1)
       {
