@@ -1,7 +1,7 @@
 //Space Wars Tower Defense
 
 PImage space, path, menubg, planet;
-PImage[] creepimg = new PImage[12];
+PImage[] creepimg = new PImage[13];
 float bgrotate;
 
 int cols = 24;
