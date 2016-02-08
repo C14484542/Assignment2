@@ -22,7 +22,7 @@ class Creeps extends BaseClass
     pushMatrix();
     translate(creepvector.x, creepvector.y);
     rotate(creeprot);
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < 3; i++)
     {
       if(level == i + 1)
       {
