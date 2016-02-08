@@ -1,6 +1,7 @@
 //Space Wars Tower Defense
 
 PImage space, path, menubg, planet;
+PImage[] creepimg = new PImage[2];
 float bgrotate;
 
 int cols = 24;
@@ -63,6 +64,12 @@ void setup()
   menubg.resize(width, height);
   planet = loadImage("planet.png");
   planet.resize(50, 50);
+  
+  for(int i = 0; i < 2 ; i++)
+  {
+   creepimg[i] = loadImage("creep" + i + ".png");
+   creepimg[i].resize(50,50);
+  }
 }
 
 void draw()
@@ -136,6 +143,7 @@ void draw()
       if (objectsArray.size()>0)
       {
         ((Creeps)objectsArray.get(j)).render();
+        ((Creeps)objectsArray.get(j)).update();
       }
     }
 

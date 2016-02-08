@@ -1,14 +1,10 @@
 class Creeps extends BaseClass
 {
-  PImage creep;
 
   Creeps()
   {
     this.speed = 1;
     this.health = 20;
-    this.creep = loadImage("creep1.png");
-    this.creep.resize(50,50);
-    
     this.forward = new PVector(100, 0);
     this.creepvector.x = 0;
     this.creepvector.y = 175;
@@ -26,7 +22,13 @@ class Creeps extends BaseClass
     pushMatrix();
     translate(creepvector.x, creepvector.y);
     rotate(creeprot);
-    image(creep, 0, 0);
+    for(int i = 0; i < 2; i++)
+    {
+      if(level == i + 1)
+      {
+        image(creepimg[i], 0, 0);
+      }
+    }
     popMatrix();
   }
   
