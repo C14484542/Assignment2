@@ -19,6 +19,7 @@ int timer = 0;
 
 boolean start = false;
 boolean menu = true;
+boolean end = false;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
 int gold, lives, level;
@@ -122,7 +123,11 @@ void draw()
         }
       }
     }
-
+    
+    if(end)
+    {
+      win();
+    }
     spawntime++;
     if (spawntime == 60)
     {
@@ -161,10 +166,16 @@ void draw()
     
     checkCollisions();
 
-    for (int i=0; i<towersArray.size(); i++) {
-
+    for (int i=0; i<towersArray.size(); i++) 
+    {
       ((Tower)towersArray.get(i)).render();
       ((Tower)towersArray.get(i)).shoot();
+    }
+    
+    if(level > creepimg.length)
+    {
+      start = false;
+      end = true;
     }
   }
 }
@@ -390,4 +401,10 @@ void drawMenu()
   text("Start", width/2, height/2);
   text("How to play", width/2, height/2 + 50);
   popMatrix();
+}
+
+void win()
+{
+  background(0);
+  text("Congratulations! You won the Space Wars Tower Defense.",width/2,height/2);
 }

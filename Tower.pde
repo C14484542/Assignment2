@@ -51,7 +51,7 @@ class Tower
         if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, towervector.x, towervector.y) < towerRange) 
         {
           Tfr++;
-          if (Tfr == 60 && objectsArray.get(i).health > 0)
+          if (Tfr == 60)
           {
             bulletsArray.add(new Bullet(towervector.x, towervector.y));  
             Tfr = 0;
