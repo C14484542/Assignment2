@@ -65,11 +65,11 @@ void setup()
   menubg.resize(width, height);
   planet = loadImage("planet.png");
   planet.resize(50, 50);
-  
-  for(int i = 0; i < 3 ; i++)
+
+  for (int i = 0; i < 3; i++)
   {
-   creepimg[i] = loadImage("creep" + i + ".png");
-   creepimg[i].resize(50,50);
+    creepimg[i] = loadImage("creep" + i + ".png");
+    creepimg[i].resize(50, 50);
   }
 }
 
@@ -123,10 +123,16 @@ void draw()
         }
       }
     }
-    
-    if(end)
+
+    if (end)
     {
-      win();
+      if (lives > 0)
+      {
+        win();
+      } else
+      {
+        lose();
+      }
     }
     spawntime++;
     if (spawntime == 60)
@@ -163,7 +169,7 @@ void draw()
         level++;
       }
     }
-    
+
     checkCollisions();
 
     for (int i=0; i<towersArray.size(); i++) 
@@ -171,8 +177,8 @@ void draw()
       ((Tower)towersArray.get(i)).render();
       ((Tower)towersArray.get(i)).shoot();
     }
-    
-    if(level > creepimg.length)
+
+    if (level > creepimg.length || lives == 0)
     {
       start = false;
       end = true;
@@ -406,5 +412,13 @@ void drawMenu()
 void win()
 {
   background(0);
-  text("Congratulations! You won the Space Wars Tower Defense.",width/2,height/2);
+  fill(255);
+  text("Congratulations! You won the Space Wars Tower Defense.", width/2, height/2);
+}
+
+void lose()
+{
+  background(0);
+  fill(255);
+  text("You Lost! You failed to defend your planet from the invaders.", width/2, height/2);
 }
