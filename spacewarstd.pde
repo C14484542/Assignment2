@@ -176,7 +176,7 @@ void draw()
     for (int i=0; i<towersArray.size(); i++) 
     {
       ((Tower)towersArray.get(i)).render();
-      ((Tower)towersArray.get(i)).shoot();
+      ((Tower)towersArray.get(i)).update();
     }
 
     if (level > creepimg.length || lives == 0)
@@ -282,7 +282,7 @@ void checkCollisions()
     BaseClass creep = objectsArray.get(i);
     if (creep instanceof Creeps)
     {
-      if (creep.health == 0)
+      if (creep.health <= 0)
       {
         objectsArray.remove(creep);
         gold += 50;

@@ -9,6 +9,9 @@ class Tower
   float aY = 40;
   float angle;
   float towerrot;
+  int damage;
+  int towerlevel;
+  boolean towermenu;
   ArrayList bulletsArray = new ArrayList();
 
   Tower (float x, float y) {
@@ -16,6 +19,9 @@ class Tower
     towervector.y = y;
     towerimg = loadImage("tower1.png");
     towerimg.resize(40, 40);
+    damage = 1;
+    towerlevel = 1;
+    towermenu = false;
   }
 
   void render() 
@@ -28,8 +34,7 @@ class Tower
         aX = (40 * cos(angle)) + towervector.x;
         aY = (40 * sin(angle)) + towervector.y;
         towerrot = angle + PI/2;
-      }
-      else
+      } else
       {
         towerrot = 0;
       }
@@ -42,8 +47,28 @@ class Tower
     popMatrix();
   }
 
-  void shoot()
+  void update()
   {
+    if(mousePressed)
+    {
+      if (bgrid[maptestX][maptestY] == true)
+      {
+        if (dist(mouseX, mouseY, towervector.x, towervector.y) < 25)
+        {
+          towermenu = true;
+        }
+      }
+    }
+    
+    if(towermenu == true)
+    {
+      pushMatrix();
+      fill(127);
+      rect(width - 25, 25, 50, 50);
+      rect(width - 25, 75, 50, 50);
+      rect(width - 25, 125, 50, 50);
+      popMatrix();
+    }
     for (int i = 0; i < objectsArray.size(); i++)
     {
       if (objectsArray.size() > 0) 
@@ -67,13 +92,12 @@ class Tower
         if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, ((Bullet)bulletsArray.get(j)).loc.x, ((Bullet)bulletsArray.get(j)).loc.y) < 50) 
         {
           bulletsArray.remove(j);
-          objectsArray.get(i).health--;
-        } 
-        else if (((Bullet)bulletsArray.get(j)).loc.x > width || ((Bullet)bulletsArray.get(j)).loc.x < 0 || ((Bullet)bulletsArray.get(j)).loc.y > height || ((Bullet)bulletsArray.get(j)).loc.y < 0) 
+          objectsArray.get(i).health-=damage;
+        } else if (((Bullet)bulletsArray.get(j)).loc.x > width || ((Bullet)bulletsArray.get(j)).loc.x < 0 || ((Bullet)bulletsArray.get(j)).loc.y > height || ((Bullet)bulletsArray.get(j)).loc.y < 0) 
         {
           bulletsArray.remove(j);
         }
-        if(objectsArray.size() == 0)
+        if (objectsArray.size() == 0)
         {
           bulletsArray.remove(j);
         }
