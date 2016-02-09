@@ -2,6 +2,7 @@
 
 PImage space, path, menubg, planet;
 PImage[] creepimg = new PImage[13];
+PImage[] towerimg = new PImage[2];
 float bgrotate;
 
 int cols = 24;
@@ -71,6 +72,12 @@ void setup()
   {
     creepimg[i] = loadImage("creep" + i + ".png");
     creepimg[i].resize(50, 50);
+  }
+  
+  for (int i = 0; i < towerimg.length; i++)
+  {
+    towerimg[i] = loadImage("tower" + i + ".png");
+    towerimg[i].resize(40, 40);
   }
 }
 

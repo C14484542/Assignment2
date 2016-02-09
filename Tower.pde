@@ -2,7 +2,6 @@
 class Tower 
 {
   PVector towervector = new PVector();
-  PImage towerimg;
   int Tfr = 0; //timeframe
   int towerRange = 200;
   float aX = 40;
@@ -17,8 +16,6 @@ class Tower
   Tower (float x, float y) {
     towervector.x = x;
     towervector.y = y;
-    towerimg = loadImage("tower1.png");
-    towerimg.resize(40, 40);
     damage = 1;
     towerlevel = 1;
     towermenu = false;
@@ -43,13 +40,19 @@ class Tower
     pushMatrix();
     translate(towervector.x, towervector.y);
     rotate(towerrot);
-    image(towerimg, 0, 0);
+    for (int i = 0; i < towerimg.length; i++)
+    {
+      if (towerlevel == i + 1)
+      {
+        image(towerimg[i], 0, 0);
+      }
+    }
     popMatrix();
   }
 
   void update()
   {
-    if(mousePressed)
+    if (mousePressed)
     {
       if (bgrid[maptestX][maptestY] == true)
       {
@@ -59,8 +62,8 @@ class Tower
         }
       }
     }
-    
-    if(towermenu == true)
+
+    if (towermenu == true)
     {
       pushMatrix();
       fill(127);
@@ -68,6 +71,14 @@ class Tower
       rect(width - 25, 75, 50, 50);
       rect(width - 25, 125, 50, 50);
       popMatrix();
+
+      if (mousePressed)
+      {
+        if (dist(mouseX, mouseY, width - 25, 50) < 25)
+        {
+          towerlevel=2;
+        }
+      }
     }
     for (int i = 0; i < objectsArray.size(); i++)
     {
