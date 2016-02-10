@@ -54,7 +54,7 @@ class Tower
   {
     if (mousePressed)
     {
-      if (bgrid[maptestX][maptestY] == true)
+      if (occupied[maptestX][maptestY] == true)
       {
         if (dist(mouseX, mouseY, towervector.x, towervector.y) < 25)
         {
@@ -65,18 +65,26 @@ class Tower
 
     if (towermenu == true)
     {
+      occupied[(int)(towervector.x/50) - 1][(int)(towervector.y/50) - 1] = true;
+      occupied[(int)(towervector.x/50)][(int)(towervector.y/50) - 1] = true;
+      occupied[(int)(towervector.x/50) + 1][(int)(towervector.y/50) - 1] = true;
       pushMatrix();
-      fill(127);
-      rect(width - 25, 25, 50, 50);
-      rect(width - 25, 75, 50, 50);
-      rect(width - 25, 125, 50, 50);
+      fill(255);
+      rect(towervector.x - 50, towervector.y - 50, 50, 50);
+      rect(towervector.x, towervector.y - 50, 50, 50);
+      rect(towervector.x + 50, towervector.y - 50, 50, 50);
       popMatrix();
 
       if (mousePressed)
       {
-        if (dist(mouseX, mouseY, width - 25, 50) < 25)
+        if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < 25)
         {
-          towerlevel=2;
+          towerlevel++;
+          towermenu = false;
+        }
+        if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < 25)
+        {
+          towermenu = false;
         }
       }
     }

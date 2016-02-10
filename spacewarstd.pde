@@ -26,7 +26,7 @@ ArrayList<Tower> towersArray = new ArrayList<Tower>();
 int gold, lives, level;
 
 Square[] sq = new Square[288];
-boolean[][] bgrid = new boolean[cols][rows];
+boolean[][] occupied = new boolean[cols][rows];
 
 int maptestX, maptestY;
 int placeX, placeY;
@@ -365,11 +365,12 @@ void mousePressed()
     {
       placeX = current_buttonX(maptestX, maptestY);
       placeY = current_buttonY(maptestX, maptestY);
-      if (bgrid[maptestX][maptestY] == false)
+      if (occupied[maptestX][maptestY] == false)
       {
         towersArray.add(new Tower(placeX, placeY));
         gold -= 250;
-        bgrid[maptestX][maptestY] = true;
+        occupied[maptestX][maptestY] = true;
+        mousePressed = !mousePressed;
       }
     }
   }
