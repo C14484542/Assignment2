@@ -1,9 +1,9 @@
 //Space Wars Tower Defense
 
 PImage space, path, menubg, planet, sell, cancel;
-PImage[] creepimg = new PImage[13];
-PImage[] towerimg = new PImage[8];
-float bgrotate;
+PImage[] creepimg = new PImage[13]; //different images for creep levels
+PImage[] towerimg = new PImage[8]; // different images for tower levels
+float bgrotate; //rotating the background
 
 int cols = 24;
 int rows = 12;
@@ -11,8 +11,9 @@ int grid [][] = new int[cols][rows];
 
 ArrayList<BaseClass> objectsArray = new ArrayList<BaseClass>();
 ArrayList<Corners> cornersArray = new ArrayList<Corners>();
+ArrayList<Tower> towersArray = new ArrayList<Tower>();
 
-float creepX, creepY;
+//spawning creeps
 int no_of_creeps;
 int spawntime;
 int timer = 0;
@@ -21,17 +22,20 @@ boolean start = false;
 boolean menu = true;
 boolean end = false;
 boolean name = false;
-
-ArrayList<Tower> towersArray = new ArrayList<Tower>();
-int gold, lives, level, score;
-
-Square[] sq = new Square[288];
+boolean showhs = false;
 boolean[][] occupied = new boolean[cols][rows];
 
-int maptestX, maptestY;
-int placeX, placeY;
+int gold, lives, level, score; //stats
+
+//drawing squares for grid
+Square[] sq = new Square[288];
 int rectSize = 50; 
 
+//for building towers
+int maptestX, maptestY;
+int placeX, placeY;
+
+//input and output
 String userName;
 String[] highsc;
 int highscore;
@@ -47,6 +51,7 @@ void setup()
   path = loadImage("path.png");
   path.resize(width, height);
 
+  //adding all squares (cols * rows)
   for (int i = 0; i < 288; i++)
   {
     sq[i] = new Square();
@@ -64,15 +69,22 @@ void setup()
   }
 
   no_of_creeps = 5;
+
+  //stats
   gold = 1000;
   lives = 10;
   level = 1;
   score = 0;
 
+  //loading images
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
   planet = loadImage("planet.png");
   planet.resize(rectSize, rectSize);
+  sell = loadImage("sell.png");
+  sell.resize(rectSize, rectSize);
+  cancel = loadImage("cancel.png");
+  cancel.resize(rectSize, rectSize);
 
   for (int i = 0; i < creepimg.length; i++)
   {
@@ -86,21 +98,17 @@ void setup()
     towerimg[i].resize(40, 40);
   }
 
-  sell = loadImage("sell.png");
-  sell.resize(rectSize, rectSize);
-  cancel = loadImage("cancel.png");
-  cancel.resize(rectSize, rectSize);
-
   userName = "";
   highscore = 0;
 }
 
 void draw()
 {
+  //mapping the coordinate of mouseX and mouseY to cols and rows
   maptestX = int(map(mouseX, 0, 1200, 0, 24));
   maptestY = int(map(mouseY, 0, 600, 0, 12));
-
-  if (!start)
+  
+  if (!start && !end)
   {
     drawMenu();
   }
@@ -119,8 +127,9 @@ void draw()
     pushMatrix();
     fill(255);
     text("LEVEL: " + level, 50, 25);
-    text("GOLD: " + gold, 150, 25);
-    text("LIVES: " + lives, 300, 25);
+    text("GOLD: " + gold, 250, 25);
+    text("LIVES: " + lives, 450, 25);
+    text("SCORE: " + score, 650, 25);
     popMatrix();
 
     //tower menu
@@ -141,11 +150,13 @@ void draw()
         squareno++;
         if (i == 0 && j == 6)
         {
+          //end of path
           image(planet, rectSize/2+i*rectSize, rectSize/2+j*rectSize);
         }
 
         if (i == 0 && j == 3)
         {
+          //start of path
           pushMatrix();
           fill(0);
           text("Start", rectSize/2+i*rectSize, rectSize/2+j*rectSize);
@@ -153,21 +164,8 @@ void draw()
         }
       }
     }
-
-    if (end)
-    {
-      win();
-      String[] highsc = split(userName, ' ');
-      if (lives > 0)
-      {
-        saveStrings("highscore.txt", highsc);
-        win();
-      } else
-      {
-        saveStrings("highscore.txt", highsc);
-        lose();
-      }
-    }
+    
+    //creeps spawn every second
     spawntime++;
     if (spawntime == 60)
     {
@@ -182,7 +180,8 @@ void draw()
         spawntime = 100;
       }
     }
-
+    
+    //drawing creeps
     for (int j=0; j<objectsArray.size(); j++) 
     {
       if (objectsArray.size()>0)
@@ -191,22 +190,25 @@ void draw()
         ((Creeps)objectsArray.get(j)).update();
       }
     }
-
+    
+    //spawning next level creeps
     if (objectsArray.size() == 0) 
     {
       timer++;
       if (timer == 120) 
       {
         spawntime = 0;
-        no_of_creeps += 1;
+        no_of_creeps += 2;
         timer = 0;
         level++;
       }
     }
-
+    
     placeCorners();
     checkCollisions();
     setOccupied();
+    
+    //draw towers
     for (int i=0; i<towersArray.size(); i++) 
     {
       ((Tower)towersArray.get(i)).render();
@@ -215,14 +217,46 @@ void draw()
 
     towerMenu();
 
+    //ending the game
     if (level > creepimg.length || lives <= 0)
     {
       start = false;
       end = true;
     }
   }
+
+  if (!start && end)
+  {
+    //comparing score to highscore and saving it into a file
+    String[] highsc = split(userName + "," + score, ',');
+    String lines[] = loadStrings("highscore.txt");
+    for (int j = 0; j < lines.length; j++) 
+    {
+      if (j == 1)
+      {
+        highscore = Integer.parseInt(lines[j]);
+      }
+    }
+    if (score > highscore)
+    {
+      saveStrings("highscore.txt", highsc);
+    }
+    if (lives > 0)
+    {
+      win();
+    } else
+    {
+      lose();
+    }
+  }
+
+  if (showhs)
+  {
+    showHighscore();
+  }
 }
 
+//place corners for collision so that creeps will change direction
 void placeCorners()
 {
   for (int i = 0; i < rows; i++)
@@ -311,6 +345,7 @@ void placeCorners()
   }//end outer for
 }
 
+//checking collisions between elements
 void checkCollisions()
 {
   for (int i = objectsArray.size() - 1; i >= 0; i --)
@@ -318,18 +353,22 @@ void checkCollisions()
     BaseClass creep = objectsArray.get(i);
     if (creep instanceof Creeps)
     {
+      //if tower kills the creep
       if (creep.health <= 0)
       {
         objectsArray.remove(creep);
-        gold += 50;
+        gold += 50 + (10*level);
         score += 10;
       }
-
+      
+      //if reaches end of path
       if (creep.creepvector.x < rectSize/2 && creep. creepvector.y > 300)
       {
         lives--;
         objectsArray.remove(creep);
       }
+      
+      //if creep collides with corners then change direction
       for (int j = cornersArray.size() - 1; j >= 0; j --)
       {
         Corners corner = cornersArray.get(j);
@@ -375,7 +414,6 @@ void checkCollisions()
 
 void mousePressed()
 {
-
   if (menu)
   {
     if (name == false)
@@ -384,20 +422,28 @@ void mousePressed()
       {
         name = true;
       }
-    }
-    for (int i = 0; i < 100; i += 50)
+    } else
     {
-      if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
+      for (int i = 0; i <=50; i += 50)
       {
-        if (i == 0)
+        if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
         {
-          start = true;
+          if (i == 0)
+          {
+            start = true;
+          }
+
+          if (i == 50)
+          {
+            showhs = true;
+          }
         }
       }
     }
   }
   if (!menu)
   {
+    //adding towers
     if (gold >= 250) 
     {
       placeX = current_buttonX(maptestX, maptestY);
@@ -411,8 +457,17 @@ void mousePressed()
       }
     }
   }
+
+  if (showhs)
+  {
+    if (dist(mouseX, mouseY, width - rectSize/2, rectSize/2) < 25)
+    {
+      showhs = false;
+    }
+  }
 }
 
+//returns X coordinate of new tower
 int current_buttonX (int x, int y) 
 {
   int xpos = 0;
@@ -421,6 +476,7 @@ int current_buttonX (int x, int y)
   return xpos;
 }
 
+//returns Y coordinate of new tower
 int current_buttonY (int x, int y) 
 {
   int ypos = 0;
@@ -452,11 +508,12 @@ void drawMenu()
   if (name == true)
   {
     pushMatrix();
+    textSize(20);
     fill(255);
     text("Hello " + userName + " Welcome to Space Wars Tower Defense!", width/2, height/2 - 100);
     popMatrix();
 
-    for (int i = 0; i < 50; i += 50)
+    for (int i = 0; i <= 50; i += 50)
     {
       pushMatrix();
       if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
@@ -472,18 +529,19 @@ void drawMenu()
 
     pushMatrix();
     fill(0);
+    textSize(15);
     text("Start", width/2, height/2);
-    //text("How to play", width/2, height/2 + 50);
+    text("Highscore", width/2, height/2 + 50);
     popMatrix();
   }
 }
-
 
 void win()
 {
   background(0);
   fill(255);
   text("Congratulations! You won the Space Wars Tower Defense.", width/2, height/2);
+  text("Score: " + score, width/2, height/2 + 30);
 }
 
 void lose()
@@ -491,6 +549,7 @@ void lose()
   background(0);
   fill(255);
   text("You Lost! You failed to defend your planet from the invaders.", width/2, height/2);
+  text("Score: " + score, width/2, height/2 + 30);
 }
 
 //set occupied[][] to true which means towers cannot be built here
@@ -500,6 +559,11 @@ void setOccupied()
   {
     for (int j = 0; j < rows; j++)
     {
+      //Set stats as occupied
+      if (j == 0 && (i == 0 || i == 1 || i == 4 || i == 5 || i == 8 || i == 9 || i == 12 || i == 13))
+      {
+        occupied[i][j] = true;
+      }
       //Set the tower menu as occupied
       if (i == 23 && j < 3)
       {
@@ -547,6 +611,7 @@ void setOccupied()
   }
 }
 
+//drawing tower menu
 void towerMenu()
 {
   for (int i = towersArray.size() - 1; i >= 0; i --)
@@ -554,6 +619,7 @@ void towerMenu()
     Tower tower = towersArray.get(i);
     if (tower instanceof Tower)
     {
+      //if tower is clicked, show the tower menu
       if (mousePressed)
       {
         if (occupied[maptestX][maptestY] == true)
@@ -587,9 +653,16 @@ void towerMenu()
         {
           pushMatrix();
           fill(255);
-          text("Upgrade tower", width-(rectSize*2), rectSize/2);
+          text("Upgrade tower: Price:" + tower.towerprice[tower.towerlevel], width-(rectSize*4), rectSize/2);
+          popMatrix();
+        } else if (dist(mouseX, mouseY, width-rectSize/2, (rectSize/2) * 3) < rectSize/2)
+        {
+          pushMatrix();
+          fill(255);
+          text("Sell tower: Price:" + tower.towerprice[tower.towerlevel-1], width-(rectSize*4), (rectSize/2) * 3);
           popMatrix();
         }
+
 
         if (mousePressed)
         {
@@ -597,10 +670,13 @@ void towerMenu()
           {
             if (tower.towerlevel < 8)
             {
-              tower.towerlevel++;
-              tower.damage++;
-              gold-=tower.towerprice[tower.towerlevel-1];
-              tower.towermenu = false;
+              if (gold >= tower.towerprice[tower.towerlevel])
+              {
+                tower.towerlevel++;
+                tower.damage+=2;
+                gold-=tower.towerprice[tower.towerlevel-1];
+                tower.towermenu = false;
+              }
             }
           }
 
@@ -624,6 +700,7 @@ void towerMenu()
   }
 }
 
+//for getting input from keyboard
 void keyPressed() 
 {
   if (name == false)
@@ -642,4 +719,24 @@ void keyPressed()
       userName = userName + key;
     }
   }
+}
+
+void showHighscore()
+{
+  background(0);
+  String lines[] = loadStrings("highscore.txt");
+  for (int j = 0; j < lines.length; j++) 
+  {
+    pushMatrix();
+    fill(255);
+    textSize(20);
+    text("Highscore: ", width/2, 50);
+    text("Name", width/2 - 100, height/2 - 50);
+    text("Score", width/2 +100, height/2 - 50);
+    text(lines[0], width/2 - 100, height/2);
+    text(lines[1], width/2 +100, height/2);
+    popMatrix();
+  }
+  
+  image(cancel,width-25,25);
 }

@@ -13,12 +13,7 @@ class Creeps extends BaseClass
 
 
   void render()
-  {
-    forward.x = sin(creeprot);
-    forward.y = -cos(creeprot);
-    forward.mult(speed);
-    creepvector.add(forward);
-    
+  {    
     pushMatrix();
     translate(creepvector.x, creepvector.y);
     rotate(creeprot);
@@ -34,5 +29,9 @@ class Creeps extends BaseClass
   
   void update()
   {
+    forward.x = sin(creeprot);
+    forward.y = -cos(creeprot);
+    forward.mult(speed);
+    creepvector.add(forward);
   }
 }

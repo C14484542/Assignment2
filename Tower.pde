@@ -53,6 +53,7 @@ class Tower
 
   void update()
   {
+    //changing price of towers
     for (int i = 0; i < towerimg.length; i++)
     {
       if (i == 0)
@@ -89,6 +90,7 @@ class Tower
       }
     }
 
+    //if distance of creep < towerRange then add bullets
     for (int i = 0; i < objectsArray.size(); i++)
     {
       if (objectsArray.size() > 0) 
@@ -108,7 +110,8 @@ class Tower
       {
         //image(towerimg, towervector.x, towervector.y);
         ((Bullet)bulletsArray.get(j)).render(aX, aY);
-
+        
+        //if bullet is hitting the creep
         if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, ((Bullet)bulletsArray.get(j)).loc.x, ((Bullet)bulletsArray.get(j)).loc.y) < rectSize) 
         {
           bulletsArray.remove(j);
