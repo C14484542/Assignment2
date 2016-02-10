@@ -1,4 +1,15 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+AudioPlayer player;
+Minim minim;
+
 //Space Wars Tower Defense
+
 
 PImage space, path, menubg, planet, sell, cancel;
 PImage[] creepimg = new PImage[13]; //different images for creep levels
@@ -100,6 +111,9 @@ void setup()
 
   userName = "";
   highscore = 0;
+
+  minim = new Minim(this);
+  player = minim.loadFile("music.mp3", 1048);
 }
 
 void draw()
@@ -107,7 +121,7 @@ void draw()
   //mapping the coordinate of mouseX and mouseY to cols and rows
   maptestX = int(map(mouseX, 0, 1200, 0, 24));
   maptestY = int(map(mouseY, 0, 600, 0, 12));
-  
+
   if (!start && !end)
   {
     drawMenu();
@@ -164,7 +178,7 @@ void draw()
         }
       }
     }
-    
+
     //creeps spawn every second
     spawntime++;
     if (spawntime == 60)
@@ -180,7 +194,7 @@ void draw()
         spawntime = 100;
       }
     }
-    
+
     //drawing creeps
     for (int j=0; j<objectsArray.size(); j++) 
     {
@@ -190,7 +204,7 @@ void draw()
         ((Creeps)objectsArray.get(j)).update();
       }
     }
-    
+
     //spawning next level creeps
     if (objectsArray.size() == 0) 
     {
@@ -203,11 +217,11 @@ void draw()
         level++;
       }
     }
-    
+
     placeCorners();
     checkCollisions();
     setOccupied();
-    
+
     //draw towers
     for (int i=0; i<towersArray.size(); i++) 
     {
@@ -343,6 +357,12 @@ void placeCorners()
       }//end if
     }//end inner for
   }//end outer for
+  
+  if (player.isPlaying()==false)
+  {
+    player.rewind();
+    player.play();
+  }
 }
 
 //checking collisions between elements
@@ -360,14 +380,14 @@ void checkCollisions()
         gold += 50 + (10*level);
         score += 10;
       }
-      
+
       //if reaches end of path
       if (creep.creepvector.x < rectSize/2 && creep. creepvector.y > 300)
       {
         lives--;
         objectsArray.remove(creep);
       }
-      
+
       //if creep collides with corners then change direction
       for (int j = cornersArray.size() - 1; j >= 0; j --)
       {
@@ -685,10 +705,7 @@ void towerMenu()
           {
             towersArray.remove(tower);
             occupied[(int)tower.towervector.x/50][(int)tower.towervector.y/50] = false;
-            for (int j = 1; j < tower.towerlevel; j++)
-            {
-              gold+=tower.towerprice[tower.towerlevel-j];
-            }
+            gold+=tower.towerprice[tower.towerlevel-1];
           }
 
           if (dist(mouseX, mouseY, width - rectSize/2, 125) < rectSize/2)
@@ -738,6 +755,6 @@ void showHighscore()
     text(lines[1], width/2 +100, height/2);
     popMatrix();
   }
-  
-  image(cancel,width-25,25);
+
+  image(cancel, width-25, 25);
 }
