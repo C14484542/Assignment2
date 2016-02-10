@@ -2,13 +2,12 @@
 
 PImage space, path, menubg, planet;
 PImage[] creepimg = new PImage[13];
-PImage[] towerimg = new PImage[2];
+PImage[] towerimg = new PImage[3];
 float bgrotate;
 
 int cols = 24;
 int rows = 12;
 int grid [][] = new int[cols][rows];
-
 
 ArrayList<BaseClass> objectsArray = new ArrayList<BaseClass>();
 ArrayList<Corners> cornersArray = new ArrayList<Corners>();
@@ -30,6 +29,7 @@ boolean[][] occupied = new boolean[cols][rows];
 
 int maptestX, maptestY;
 int placeX, placeY;
+int rectSize = 50; 
 
 void setup()
 {
@@ -66,12 +66,12 @@ void setup()
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
   planet = loadImage("planet.png");
-  planet.resize(50, 50);
+  planet.resize(rectSize, rectSize);
 
   for (int i = 0; i < creepimg.length; i++)
   {
     creepimg[i] = loadImage("creep" + i + ".png");
-    creepimg[i].resize(50, 50);
+    creepimg[i].resize(rectSize, rectSize);
   }
 
   for (int i = 0; i < towerimg.length; i++)
@@ -101,6 +101,7 @@ void draw()
     popMatrix();
     image(path, width/2, height/2);
 
+    //stats
     pushMatrix();
     fill(255);
     text("LEVEL: " + level, 50, 25);
@@ -108,25 +109,32 @@ void draw()
     text("LIVES: " + lives, 300, 25);
     popMatrix();
 
-    placeCorners();
+    //tower menu
+    pushMatrix();
+    stroke(0);
+    fill(127);
+    rect(width-rectSize/2, rectSize/2, rectSize, rectSize);
+    rect(width-rectSize/2, (rectSize/2) * 3, rectSize, rectSize);
+    rect(width-rectSize/2, (rectSize/2) * 5, rectSize, rectSize);
+    popMatrix();
 
     int squareno = 0;
     for (int i = 0; i < cols; i++)
     {
       for (int j = 0; j < rows; j++)
       {
-        sq[squareno].render(25+i*50, 25+j*50);
+        sq[squareno].render(rectSize/2+i*rectSize, rectSize/2+j*rectSize);
         squareno++;
         if (i == 0 && j == 6)
         {
-          image(planet, 25+i*50, 25+j*50);
+          image(planet, rectSize/2+i*rectSize, rectSize/2+j*rectSize);
         }
 
         if (i == 0 && j == 3)
         {
           pushMatrix();
           fill(0);
-          text("Start", 25+i*50, 25+j*50);
+          text("Start", rectSize/2+i*rectSize, rectSize/2+j*rectSize);
           popMatrix();
         }
       }
@@ -178,6 +186,7 @@ void draw()
       }
     }
 
+    placeCorners();
     checkCollisions();
     setOccupied();
     for (int i=0; i<towersArray.size(); i++) 
@@ -188,7 +197,7 @@ void draw()
 
     towerMenu();
 
-    if (level > creepimg.length || lives == 0)
+    if (level > creepimg.length || lives <= 0)
     {
       start = false;
       end = true;
@@ -206,7 +215,7 @@ void placeCorners()
       {
         if (j == 2 || j == 12 || j == 18)
         {
-          Corners corner = new Right(25+j*50, 25+i*50);
+          Corners corner = new Right(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
@@ -216,7 +225,7 @@ void placeCorners()
       {
         if (j == 10 || j == 16 || j == 22)
         {
-          Corners corner = new Down(25+j*50, 25+i*50);
+          Corners corner = new Down(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
@@ -224,14 +233,14 @@ void placeCorners()
 
       if (i == 3 && j == 3)
       {
-        Corners corner = new Up(25+j*50, 25+i*50);
+        Corners corner = new Up(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
         cornersArray.add(corner);
         corner.render();
       }//end if
 
       if (i == 4 && j == 4)
       {
-        Corners corner = new Down(25+j*50, 25+i*50);
+        Corners corner = new Down(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
         cornersArray.add(corner);
         corner.render();
       }//end if
@@ -240,7 +249,7 @@ void placeCorners()
       {
         if (j == 2 || j == 9)
         {
-          Corners corner = new Left(25+j*50, 25+i*50);
+          Corners corner = new Left(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
@@ -251,7 +260,7 @@ void placeCorners()
         if (j == 13 || j == 19)
 
         {
-          Corners corner = new Up(25+j*50, 25+i*50);
+          Corners corner = new Up(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
@@ -261,7 +270,7 @@ void placeCorners()
       {
         if (j == 5 || j == 15)
         {
-          Corners corner = new Right(25+j*50, 25+i*50);
+          Corners corner = new Right(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
           cornersArray.add(corner);
           corner.render();
         }//end inner if
@@ -269,14 +278,14 @@ void placeCorners()
 
       if (i == 10 && j == 1)
       {
-        Corners corner = new Up(25+j*50, 25+i*50);
+        Corners corner = new Up(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
         cornersArray.add(corner);
         corner.render();
       }//end if
 
       if (i == 11 && j == 21)
       {
-        Corners corner = new Left(25+j*50, 25+i*50);
+        Corners corner = new Left(rectSize/2+j*rectSize, rectSize/2+i*rectSize);
         cornersArray.add(corner);
         corner.render();
       }//end if
@@ -297,7 +306,7 @@ void checkCollisions()
         gold += 50;
       }
 
-      if (creep.creepvector.x < 25 && creep. creepvector.y > 300)
+      if (creep.creepvector.x < rectSize/2 && creep. creepvector.y > 300)
       {
         lives--;
         objectsArray.remove(creep);
@@ -307,7 +316,7 @@ void checkCollisions()
         Corners corner = cornersArray.get(j);
         if (corner instanceof Up) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 50)
+          if (creep.creepvector.dist(corner.cornervector) < rectSize)
           {
             // Do some casting
             creep.creeprot = 0;
@@ -316,7 +325,7 @@ void checkCollisions()
 
         if (corner instanceof Right) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 50)
+          if (creep.creepvector.dist(corner.cornervector) < rectSize)
           {
             // Do some casting
             creep.creeprot = PI/2;
@@ -325,7 +334,7 @@ void checkCollisions()
 
         if (corner instanceof Left) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 50)
+          if (creep.creepvector.dist(corner.cornervector) < rectSize)
           {
             // Do some casting
             creep.creeprot = PI*3/2;
@@ -334,7 +343,7 @@ void checkCollisions()
 
         if (corner instanceof Down) // Check the type of an object
         {
-          if (creep.creepvector.dist(corner.cornervector) < 50)
+          if (creep.creepvector.dist(corner.cornervector) < rectSize)
           {
             // Do some casting
             creep.creeprot = PI;
@@ -443,45 +452,45 @@ void setOccupied()
     for (int j = 0; j < rows; j++)
     {
       //Set the tower menu as occupied
-      if(i == 23 && j < 3)
+      if (i == 23 && j < 3)
       {
         occupied[i][j] = true;
       }
-      
+
       //Set the path as occupied
-      if(j == 1 && ((i >= 2 && i <= 9) || (i >= 12 && i <= 15) || (i >= 18 && i <= 21)))
+      if (j == 1 && ((i >= 2 && i <= 9) || (i >= 12 && i <= 15) || (i >= 18 && i <= 21)))
       {
         occupied[i][j] = true;
       }
-      if(j == 2 && (i == 2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21))
+      if (j == 2 && (i == 2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21))
       {
         occupied[i][j] = true;
       }
-      if(j == 3 && (i <=2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      if (j == 3 && (i <=2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if(j == 4 && ((i >= 5 && i <= 9) || i == 12 || i == 15 || i == 18 || i == 21)) 
+      if (j == 4 && ((i >= 5 && i <= 9) || i == 12 || i == 15 || i == 18 || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if(j == 5 && (i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      if (j == 5 && (i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if(j == 6 && (i <= 2 || i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      if (j == 6 && (i <= 2 || i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if(j == 7 && ( i == 2 || (i >= 5 && i <= 12) || (i >= 15 && i <= 18) || i == 21)) 
+      if (j == 7 && ( i == 2 || (i >= 5 && i <= 12) || (i >= 15 && i <= 18) || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if((j == 8 || j == 9) && (i == 2 || i == 21)) 
+      if ((j == 8 || j == 9) && (i == 2 || i == 21)) 
       {
         occupied[i][j] = true;
       }
-      if(j == 10 && i >= 2 && i <= 21)
+      if (j == 10 && i >= 2 && i <= 21)
       {
         occupied[i][j] = true;
       }
@@ -500,7 +509,7 @@ void towerMenu()
       {
         if (occupied[maptestX][maptestY] == true)
         {
-          if (dist(mouseX, mouseY, tower.towervector.x, tower.towervector.y) < 25)
+          if (dist(mouseX, mouseY, tower.towervector.x, tower.towervector.y) < rectSize/2)
           {
             tower.towermenu = true;
           }
@@ -511,26 +520,36 @@ void towerMenu()
       {
 
         pushMatrix();
-        fill(255);
-        rect(width-25, 25, 50, 50);
-        rect(width-25, 75, 50, 50);
-        rect(width-25, 125, 50, 50);
+        stroke(0);
+        fill(0);
+        image(towerimg[tower.towerlevel], width-rectSize/2, rectSize/2);
+        towerimg[tower.towerlevel].resize(rectSize, rectSize);
+        rect(width-rectSize/2, 75, rectSize, rectSize);
+        rect(width-rectSize/2, 125, rectSize, rectSize);
         popMatrix();
+
+        if (dist(mouseX, mouseY, width-rectSize/2, rectSize/2) < rectSize/2)
+        {
+          pushMatrix();
+          fill(255);
+          text("Upgrade tower",width-(rectSize*2), rectSize/2);
+          popMatrix();
+        }
 
         if (mousePressed)
         {
-          if (dist(mouseX, mouseY, width-25, 25) < 25)
+          if (dist(mouseX, mouseY, width-rectSize/2, rectSize/2) < rectSize/2)
           {
             tower.towerlevel++;
             tower.towermenu = false;
           }
 
-          if (dist(mouseX, mouseY, width-25, 50) < 25)
+          if (dist(mouseX, mouseY, width-rectSize/2, 75) < rectSize/2)
           {
             towersArray.remove(tower);
           }
 
-          if (dist(mouseX, mouseY, width - 25, 125) < 25)
+          if (dist(mouseX, mouseY, width - rectSize/2, 125) < rectSize/2)
           {
             tower.towermenu = false;
           }

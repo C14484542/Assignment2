@@ -3,7 +3,6 @@ class Square
   int rectX = 0;
   int rectY = 0;
   int testX, testY;
-  int rectSize = 50; 
   color rectColor, baseColor;
   color rectHighlight;
   color rectRed;
@@ -78,7 +77,7 @@ class Square
 
   boolean overRect (int x, int y) 
   {
-    if (mouseX >= x-25 && mouseX <= x+25 && mouseY >= y-25 && mouseY <= y+25) 
+    if (mouseX >= x-rectSize/2 && mouseX <= x+rectSize/2 && mouseY >= y-rectSize/2 && mouseY <= y+rectSize/2) 
     {
       return true;
     } 

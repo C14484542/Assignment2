@@ -56,7 +56,7 @@ class Tower
      {
      if (occupied[maptestX][maptestY] == true)
      {
-     if (dist(mouseX, mouseY, towervector.x, towervector.y) < 25)
+     if (dist(mouseX, mouseY, towervector.x, towervector.y) < rectSize/2)
      {
      towermenu = true;
      }
@@ -75,13 +75,13 @@ class Tower
      
      if (mousePressed)
      {
-     if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < 25)
+     if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < rectSize/2)
      {
      towerlevel++;
      towermenu = false;
      }
      
-     if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < 25)
+     if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < rectSize/2)
      {
      towermenu = false;
      }
@@ -107,7 +107,7 @@ class Tower
         //image(towerimg, towervector.x, towervector.y);
         ((Bullet)bulletsArray.get(j)).render(aX, aY);
 
-        if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, ((Bullet)bulletsArray.get(j)).loc.x, ((Bullet)bulletsArray.get(j)).loc.y) < 50) 
+        if (dist(((BaseClass)objectsArray.get(i)).creepvector.x, ((BaseClass)objectsArray.get(i)).creepvector.y, ((Bullet)bulletsArray.get(j)).loc.x, ((Bullet)bulletsArray.get(j)).loc.y) < rectSize) 
         {
           bulletsArray.remove(j);
           objectsArray.get(i).health-=damage;
