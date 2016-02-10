@@ -12,6 +12,7 @@ class Tower
   int towerlevel;
   boolean towermenu;
   ArrayList bulletsArray = new ArrayList();
+  int towerprice[] = new int[8];
 
   Tower (float x, float y) {
     towervector.x = x;
@@ -52,6 +53,42 @@ class Tower
 
   void update()
   {
+    for (int i = 0; i < towerimg.length; i++)
+    {
+      if (i == 0)
+      {
+        towerprice[i] = 250;
+      }
+      if (i == 1)
+      {
+        towerprice[i] = 250 * 2 - 10;
+      }
+      if (i == 2)
+      {
+        towerprice[i] = 250 * 3 - 20;
+      }
+      if (i == 3)
+      {
+        towerprice[i] = 250 * 4 - 30;
+      }
+      if (i == 4)
+      {
+        towerprice[i] = 250 * 5 - 40;
+      }
+      if (i == 5)
+      {
+        towerprice[i] = 250 * 6 - 50;
+      }
+      if (i == 6)
+      {
+        towerprice[i] = 250 * 7 - 60;
+      }
+      if (i == 7)
+      {
+        towerprice[i] = 250 * 8 - 70;
+      }
+    }
+
     for (int i = 0; i < objectsArray.size(); i++)
     {
       if (objectsArray.size() > 0) 

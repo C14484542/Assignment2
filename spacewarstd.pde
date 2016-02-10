@@ -1,6 +1,6 @@
 //Space Wars Tower Defense
 
-PImage space, path, menubg, planet;
+PImage space, path, menubg, planet, sell, cancel;
 PImage[] creepimg = new PImage[13];
 PImage[] towerimg = new PImage[8];
 float bgrotate;
@@ -20,9 +20,10 @@ int timer = 0;
 boolean start = false;
 boolean menu = true;
 boolean end = false;
+boolean name = false;
 
 ArrayList<Tower> towersArray = new ArrayList<Tower>();
-int gold, lives, level;
+int gold, lives, level, score;
 
 Square[] sq = new Square[288];
 boolean[][] occupied = new boolean[cols][rows];
@@ -30,6 +31,10 @@ boolean[][] occupied = new boolean[cols][rows];
 int maptestX, maptestY;
 int placeX, placeY;
 int rectSize = 50; 
+
+String userName;
+String[] highsc;
+int highscore;
 
 void setup()
 {
@@ -62,6 +67,7 @@ void setup()
   gold = 1000;
   lives = 10;
   level = 1;
+  score = 0;
 
   menubg = loadImage("menubg.png");
   menubg.resize(width, height);
@@ -79,6 +85,14 @@ void setup()
     towerimg[i] = loadImage("tower" + i + ".png");
     towerimg[i].resize(40, 40);
   }
+
+  sell = loadImage("sell.png");
+  sell.resize(rectSize, rectSize);
+  cancel = loadImage("cancel.png");
+  cancel.resize(rectSize, rectSize);
+
+  userName = "";
+  highscore = 0;
 }
 
 void draw()
@@ -142,11 +156,15 @@ void draw()
 
     if (end)
     {
+      win();
+      String[] highsc = split(userName, ' ');
       if (lives > 0)
       {
+        saveStrings("highscore.txt", highsc);
         win();
       } else
       {
+        saveStrings("highscore.txt", highsc);
         lose();
       }
     }
@@ -304,6 +322,7 @@ void checkCollisions()
       {
         objectsArray.remove(creep);
         gold += 50;
+        score += 10;
       }
 
       if (creep.creepvector.x < rectSize/2 && creep. creepvector.y > 300)
@@ -359,6 +378,13 @@ void mousePressed()
 
   if (menu)
   {
+    if (name == false)
+    {
+      if (dist(mouseX, mouseY, width/2, height/2 + 50) < 25 )
+      {
+        name = true;
+      }
+    }
     for (int i = 0; i < 100; i += 50)
     {
       if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
@@ -409,26 +435,49 @@ void drawMenu()
   noStroke();
   textAlign(CENTER, CENTER);
 
-  for (int i = 0; i < 100; i += 50)
+  if (name == false)
   {
     pushMatrix();
-    if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
-    {
-      noFill();
-    } else
-    {
-      fill(127);
-    }
-    rect(width/2, height/2 + i, 100, 30);
+    fill(0);
+    rect(width/2, height/2 + 50, 50, 50);
+    popMatrix();
+
+    pushMatrix();
+    fill(255);
+    text("Please enter your name: " + userName, width/2, height/2);
+    text("Go", width/2, height/2 + 50);
     popMatrix();
   }
 
-  pushMatrix();
-  fill(0);
-  text("Start", width/2, height/2);
-  text("How to play", width/2, height/2 + 50);
-  popMatrix();
+  if (name == true)
+  {
+    pushMatrix();
+    fill(255);
+    text("Hello " + userName + " Welcome to Space Wars Tower Defense!", width/2, height/2 - 100);
+    popMatrix();
+
+    for (int i = 0; i < 50; i += 50)
+    {
+      pushMatrix();
+      if (mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + i - 15 && mouseY < height/2 + i + 15)
+      {
+        noFill();
+      } else
+      {
+        fill(127);
+      }
+      rect(width/2, height/2 + i, 100, 30);
+      popMatrix();
+    }
+
+    pushMatrix();
+    fill(0);
+    text("Start", width/2, height/2);
+    //text("How to play", width/2, height/2 + 50);
+    popMatrix();
+  }
 }
+
 
 void win()
 {
@@ -526,13 +575,12 @@ void towerMenu()
         {
           image(towerimg[tower.towerlevel], width-rectSize/2, rectSize/2);
           towerimg[tower.towerlevel].resize(rectSize, rectSize);
-        }
-        else
+        } else
         {
           text("Max \n Level", width-rectSize/2, rectSize/2);
         }
-        rect(width-rectSize/2, 75, rectSize, rectSize);
-        rect(width-rectSize/2, 125, rectSize, rectSize);
+        image(sell, width-rectSize/2, (rectSize/2) * 3);
+        image(cancel, width-rectSize/2, (rectSize/2) * 5);
         popMatrix();
 
         if (dist(mouseX, mouseY, width-rectSize/2, rectSize/2) < rectSize/2)
@@ -551,6 +599,7 @@ void towerMenu()
             {
               tower.towerlevel++;
               tower.damage++;
+              gold-=tower.towerprice[tower.towerlevel-1];
               tower.towermenu = false;
             }
           }
@@ -558,6 +607,11 @@ void towerMenu()
           if (dist(mouseX, mouseY, width-rectSize/2, 75) < rectSize/2)
           {
             towersArray.remove(tower);
+            occupied[(int)tower.towervector.x/50][(int)tower.towervector.y/50] = false;
+            for (int j = 1; j < tower.towerlevel; j++)
+            {
+              gold+=tower.towerprice[tower.towerlevel-j];
+            }
           }
 
           if (dist(mouseX, mouseY, width - rectSize/2, 125) < rectSize/2)
@@ -566,6 +620,26 @@ void towerMenu()
           }
         }
       }
+    }
+  }
+}
+
+void keyPressed() 
+{
+  if (name == false)
+  {
+    if (keyCode == BACKSPACE) 
+    {
+      if (userName.length() > 0) 
+      {
+        userName = userName.substring(0, userName.length()-1);
+      }
+    } else if (keyCode == DELETE) 
+    {
+      userName = "";
+    } else if (keyCode != SHIFT && keyCode != CONTROL && keyCode != ALT && keyCode != BACKSPACE) 
+    {
+      userName = userName + key;
     }
   }
 }
