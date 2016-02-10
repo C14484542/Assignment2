@@ -52,42 +52,41 @@ class Tower
 
   void update()
   {
-    if (mousePressed)
-    {
-      if (occupied[maptestX][maptestY] == true)
-      {
-        if (dist(mouseX, mouseY, towervector.x, towervector.y) < 25)
-        {
-          towermenu = true;
-        }
-      }
-    }
-
-    if (towermenu == true)
-    {
-      occupied[(int)(towervector.x/50) - 1][(int)(towervector.y/50) - 1] = true;
-      occupied[(int)(towervector.x/50)][(int)(towervector.y/50) - 1] = true;
-      occupied[(int)(towervector.x/50) + 1][(int)(towervector.y/50) - 1] = true;
-      pushMatrix();
-      fill(255);
-      rect(towervector.x - 50, towervector.y - 50, 50, 50);
-      rect(towervector.x, towervector.y - 50, 50, 50);
-      rect(towervector.x + 50, towervector.y - 50, 50, 50);
-      popMatrix();
-
-      if (mousePressed)
-      {
-        if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < 25)
-        {
-          towerlevel++;
-          towermenu = false;
-        }
-        if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < 25)
-        {
-          towermenu = false;
-        }
-      }
-    }
+    /*if (mousePressed)
+     {
+     if (occupied[maptestX][maptestY] == true)
+     {
+     if (dist(mouseX, mouseY, towervector.x, towervector.y) < 25)
+     {
+     towermenu = true;
+     }
+     }
+     }
+     
+     if (towermenu == true)
+     {
+     occupied[maptestX - 1][maptestY - 1] = true;
+     occupied[maptestX + 1][maptestY - 1] = true;
+     pushMatrix();
+     fill(255);
+     rect(towervector.x - 50, towervector.y - 50, 50, 50);
+     rect(towervector.x + 50, towervector.y - 50, 50, 50);
+     popMatrix();
+     
+     if (mousePressed)
+     {
+     if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < 25)
+     {
+     towerlevel++;
+     towermenu = false;
+     }
+     
+     if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < 25)
+     {
+     towermenu = false;
+     }
+     }
+     }*/
     for (int i = 0; i < objectsArray.size(); i++)
     {
       if (objectsArray.size() > 0) 

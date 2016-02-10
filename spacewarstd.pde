@@ -73,7 +73,7 @@ void setup()
     creepimg[i] = loadImage("creep" + i + ".png");
     creepimg[i].resize(50, 50);
   }
-  
+
   for (int i = 0; i < towerimg.length; i++)
   {
     towerimg[i] = loadImage("tower" + i + ".png");
@@ -179,12 +179,14 @@ void draw()
     }
 
     checkCollisions();
-
+    setOccupied();
     for (int i=0; i<towersArray.size(); i++) 
     {
       ((Tower)towersArray.get(i)).render();
       ((Tower)towersArray.get(i)).update();
     }
+
+    towerMenu();
 
     if (level > creepimg.length || lives == 0)
     {
@@ -431,4 +433,109 @@ void lose()
   background(0);
   fill(255);
   text("You Lost! You failed to defend your planet from the invaders.", width/2, height/2);
+}
+
+//set occupied[][] to true which means towers cannot be built here
+void setOccupied()
+{
+  for (int i = 0; i < cols; i++)
+  {
+    for (int j = 0; j < rows; j++)
+    {
+      //Set the tower menu as occupied
+      if(i == 23 && j < 3)
+      {
+        occupied[i][j] = true;
+      }
+      
+      //Set the path as occupied
+      if(j == 1 && ((i >= 2 && i <= 9) || (i >= 12 && i <= 15) || (i >= 18 && i <= 21)))
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 2 && (i == 2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21))
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 3 && (i <=2 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 4 && ((i >= 5 && i <= 9) || i == 12 || i == 15 || i == 18 || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 5 && (i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 6 && (i <= 2 || i == 5 || i == 12 || i == 15 || i == 18 || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 7 && ( i == 2 || (i >= 5 && i <= 12) || (i >= 15 && i <= 18) || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if((j == 8 || j == 9) && (i == 2 || i == 21)) 
+      {
+        occupied[i][j] = true;
+      }
+      if(j == 10 && i >= 2 && i <= 21)
+      {
+        occupied[i][j] = true;
+      }
+    }
+  }
+}
+
+void towerMenu()
+{
+  for (int i = towersArray.size() - 1; i >= 0; i --)
+  {
+    Tower tower = towersArray.get(i);
+    if (tower instanceof Tower)
+    {
+      if (mousePressed)
+      {
+        if (occupied[maptestX][maptestY] == true)
+        {
+          if (dist(mouseX, mouseY, tower.towervector.x, tower.towervector.y) < 25)
+          {
+            tower.towermenu = true;
+          }
+        }
+      }
+
+      if (tower.towermenu == true)
+      {
+
+        pushMatrix();
+        fill(255);
+        rect(width-25, 25, 50, 50);
+        rect(width-25, 75, 50, 50);
+        rect(width-25, 125, 50, 50);
+        popMatrix();
+
+        if (mousePressed)
+        {
+          if (dist(mouseX, mouseY, width-25, 25) < 25)
+          {
+            tower.towerlevel++;
+            tower.towermenu = false;
+          }
+
+          if (dist(mouseX, mouseY, width-25, 50) < 25)
+          {
+            towersArray.remove(tower);
+          }
+
+          if (dist(mouseX, mouseY, width - 25, 125) < 25)
+          {
+            tower.towermenu = false;
+          }
+        }
+      }
+    }
+  }
 }
