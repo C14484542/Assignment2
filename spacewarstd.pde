@@ -495,6 +495,7 @@ void drawMenu()
   {
     pushMatrix();
     fill(0);
+    textSize(15);
     rect(width/2, height/2 + 50, 50, 50);
     popMatrix();
 
