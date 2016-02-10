@@ -2,7 +2,7 @@
 
 PImage space, path, menubg, planet;
 PImage[] creepimg = new PImage[13];
-PImage[] towerimg = new PImage[6];
+PImage[] towerimg = new PImage[7];
 float bgrotate;
 
 int cols = 24;
