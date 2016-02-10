@@ -2,7 +2,7 @@
 
 PImage space, path, menubg, planet;
 PImage[] creepimg = new PImage[13];
-PImage[] towerimg = new PImage[7];
+PImage[] towerimg = new PImage[8];
 float bgrotate;
 
 int cols = 24;
@@ -522,8 +522,15 @@ void towerMenu()
         pushMatrix();
         stroke(0);
         fill(0);
-        image(towerimg[tower.towerlevel], width-rectSize/2, rectSize/2);
-        towerimg[tower.towerlevel].resize(rectSize, rectSize);
+        if (tower.towerlevel < 8)
+        {
+          image(towerimg[tower.towerlevel], width-rectSize/2, rectSize/2);
+          towerimg[tower.towerlevel].resize(rectSize, rectSize);
+        }
+        else
+        {
+          text("Max \n Level", width-rectSize/2, rectSize/2);
+        }
         rect(width-rectSize/2, 75, rectSize, rectSize);
         rect(width-rectSize/2, 125, rectSize, rectSize);
         popMatrix();
@@ -532,7 +539,7 @@ void towerMenu()
         {
           pushMatrix();
           fill(255);
-          text("Upgrade tower",width-(rectSize*2), rectSize/2);
+          text("Upgrade tower", width-(rectSize*2), rectSize/2);
           popMatrix();
         }
 
@@ -540,8 +547,12 @@ void towerMenu()
         {
           if (dist(mouseX, mouseY, width-rectSize/2, rectSize/2) < rectSize/2)
           {
-            tower.towerlevel++;
-            tower.towermenu = false;
+            if (tower.towerlevel < 8)
+            {
+              tower.towerlevel++;
+              tower.damage++;
+              tower.towermenu = false;
+            }
           }
 
           if (dist(mouseX, mouseY, width-rectSize/2, 75) < rectSize/2)

@@ -52,41 +52,6 @@ class Tower
 
   void update()
   {
-    /*if (mousePressed)
-     {
-     if (occupied[maptestX][maptestY] == true)
-     {
-     if (dist(mouseX, mouseY, towervector.x, towervector.y) < rectSize/2)
-     {
-     towermenu = true;
-     }
-     }
-     }
-     
-     if (towermenu == true)
-     {
-     occupied[maptestX - 1][maptestY - 1] = true;
-     occupied[maptestX + 1][maptestY - 1] = true;
-     pushMatrix();
-     fill(255);
-     rect(towervector.x - 50, towervector.y - 50, 50, 50);
-     rect(towervector.x + 50, towervector.y - 50, 50, 50);
-     popMatrix();
-     
-     if (mousePressed)
-     {
-     if (dist(mouseX, mouseY, towervector.x-50, towervector.y-50) < rectSize/2)
-     {
-     towerlevel++;
-     towermenu = false;
-     }
-     
-     if (dist(mouseX, mouseY, towervector.x+50, towervector.y-50) < rectSize/2)
-     {
-     towermenu = false;
-     }
-     }
-     }*/
     for (int i = 0; i < objectsArray.size(); i++)
     {
       if (objectsArray.size() > 0) 

@@ -21,6 +21,6 @@ class Bullet
     center = new PVector(dirX, dirY);
     image(bullet, loc.x, loc.y);
     PVector velocity = PVector.sub(center, bulletforward);
-    loc.add(new PVector(velocity.x/20, velocity.y/20));
+    loc.add(new PVector(velocity.x/10, velocity.y/10));
   }
 }
